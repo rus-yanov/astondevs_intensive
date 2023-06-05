@@ -1,0 +1,26 @@
+pipeline{
+    agent {
+        label 'jenkins-nodes'
+    }
+    tools{
+        gradle 'local_gradle'
+    }
+    stages{
+        stage('Build'){
+            steps{
+                sh './gradlew war'
+            }
+            post{
+                success{
+                    echo "Atrhiving the Artifact"
+                    archiveArtifacts artifacts:'build/libs/*.war'
+                }
+            }
+        }
+        stage('Deploy to tomcat'){
+            steps{
+                sh ''
+            }
+        }
+    }
+}
